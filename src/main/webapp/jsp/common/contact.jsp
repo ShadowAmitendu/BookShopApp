@@ -1,17 +1,109 @@
-<%-- 
-    Document   : contact
-    Created on : 10 Feb 2026, 9:39:30 pm
-    Author     : amite
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact Us | BookShelf</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+        <style>body {
+            font-family: 'Space Grotesk', sans-serif;
+        }</style>
     </head>
-    <body>
-        <h1>Hello World!</h1>
+    <body class="bg-[#F3F4F6] min-h-screen flex flex-col">
+
+        <jsp:include page="/includes/header.jsp" />
+
+        <main class="max-w-6xl mx-auto px-6 py-16 w-full flex-grow">
+
+            <div class="mb-12">
+                <h1 class="text-5xl md:text-6xl font-black uppercase tracking-tighter italic">Get In <span class="text-blue-600">Touch.</span></h1>
+                <p class="text-gray-500 font-bold uppercase text-xs mt-2 tracking-widest">Questions? Feedback? We're listening.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-yellow-300 border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                        <h3 class="text-xl font-black uppercase mb-2">Visit Our HQ</h3>
+                        <p class="font-bold text-sm leading-tight">123 Bibliophile Ave,<br/>Fiction District, NY 10001</p>
+                    </div>
+
+                    <div class="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                        <h3 class="text-xl font-black uppercase mb-2">Direct Line</h3>
+                        <p class="font-bold text-sm leading-tight text-blue-600 underline">support@bookshelf.com</p>
+                        <p class="font-bold text-sm leading-tight mt-1">+1 (555) BOOK-HELP</p>
+                    </div>
+
+                    <div class="bg-pink-400 border-4 border-black p-6 rotate-1">
+                        <p class="font-black uppercase text-center text-sm italic">Average response time: &lt; 24 Hours ⚡</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <div class="bg-white border-4 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+
+                        <c:if test="${not empty sessionScope.user}">
+                            <div class="mb-6 bg-blue-50 border-2 border-blue-600 p-4 flex items-center gap-3">
+                                <span class="text-2xl">👋</span>
+                                <p class="text-xs font-black uppercase text-blue-700">
+                                    Welcome back, ${sessionScope.user.name}! We've filled in your details below.
+                                </p>
+                            </div>
+                        </c:if>
+
+                        <form action="${pageContext.request.contextPath}/contact" method="POST" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-black uppercase mb-2">Your Name</label>
+                                    <input type="text" name="name" 
+                                           value="${not empty sessionScope.user ? sessionScope.user.name : ''}" 
+                                           required 
+                                           class="w-full border-2 border-black p-4 focus:bg-yellow-50 outline-none font-bold transition-all
+                                           ${not empty sessionScope.user ? 'bg-gray-50' : ''}"
+                                           placeholder="Full Name">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-black uppercase mb-2">Email Address</label>
+                                    <input type="email" name="email" 
+                                           value="${not empty sessionScope.user ? sessionScope.user.email : ''}" 
+                                           required 
+                                           class="w-full border-2 border-black p-4 focus:bg-yellow-50 outline-none font-bold transition-all
+                                           ${not empty sessionScope.user ? 'bg-gray-50' : ''}"
+                                           placeholder="email@example.com">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-black uppercase mb-2">Subject</label>
+                                <select name="subject" class="w-full border-2 border-black p-4 focus:bg-yellow-50 outline-none font-bold appearance-none bg-white">
+                                    <option value="GENERAL">General Inquiry</option>
+                                    <option value="ORDER">Order Issue</option>
+                                    <option value="SELLER">Become a Seller</option>
+                                    <option value="TECH">Technical Bug</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-black uppercase mb-2">Message</label>
+                                <textarea name="message" rows="5" required 
+                                          class="w-full border-2 border-black p-4 focus:bg-yellow-50 outline-none font-bold"
+                                          placeholder="How can we help you today?"></textarea>
+                            </div>
+
+                            <button type="submit" 
+                                    class="bg-black text-white px-10 py-5 border-2 border-black font-black uppercase hover:bg-blue-600 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 transition-all w-full md:w-auto">
+                                Send Message →
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <jsp:include page="/includes/footer.jsp" />
+
     </body>
 </html>

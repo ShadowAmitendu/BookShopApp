@@ -1,75 +1,63 @@
-<%-- 
-    Document   : header
-    Created on : 11 Feb 2026, 7:47:44 am
-    Author     : amite
---%>
-
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<script src="https://cdn.tailwindcss.com"></script>
+<header class="bg-white border-b-4 border-black sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
 
-<nav class="bg-white border-b-4 border-black sticky top-0 z-[100]">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="flex justify-between items-center h-20">
+        <a href="${pageContext.request.contextPath}/" class="text-2xl font-black uppercase tracking-tighter hover:text-blue-600 transition-colors flex-shrink-0">
+            Book<span class="text-blue-600">Shelf.</span>
+        </a>
 
-            <div class="flex items-center">
-                <a href="${pageContext.request.contextPath}/" 
-                   class="text-black text-3xl font-black tracking-tighter uppercase italic">
-                    Book<span class="text-blue-600">Shelf.</span>
-                </a>
-            </div>
+        <form action="${pageContext.request.contextPath}/search" method="GET" class="hidden lg:flex items-center border-4 border-black bg-white flex-grow max-w-md mx-4">
+            <input type="text" name="query" placeholder="Search by title or author..." 
+                   class="w-full p-2 outline-none font-bold text-xs uppercase placeholder-gray-400"
+                   value="${searchQuery}">
+            <button type="submit" class="bg-black text-white px-4 py-2 font-black uppercase text-[10px] hover:bg-blue-600 transition-colors border-l-4 border-black">
+                Find
+            </button>
+        </form>
 
-            <div class="hidden md:flex items-center space-x-10">
+        <div class="hidden md:flex items-center gap-6 font-black uppercase text-xs tracking-widest flex-shrink-0">
+            <a href="${pageContext.request.contextPath}/books" class="hover:underline decoration-2 underline-offset-4">Catalog</a>
 
-                <a href="${pageContext.request.contextPath}/books"
-                   class="font-bold uppercase text-sm tracking-widest hover:text-blue-600 transition-colors">
-                    Books
-                </a>
+            <c:choose>
+                <c:when test="${sessionScope.user.role == 'ADMIN'}">
+                    <a href="${pageContext.request.contextPath}/admin/dashboard" class="text-purple-600">Dashboard</a>
+                </c:when>
 
-                <a href="${pageContext.request.contextPath}/addToCart"
-                   class="font-bold uppercase text-sm tracking-widest hover:text-blue-600 transition-colors flex items-center">
-                    Cart
-                    <span class="ml-2 bg-yellow-300 border-2 border-black px-1.5 py-0.5 text-[10px] leading-none">0</span>
-                </a>
+                <c:when test="${sessionScope.user.role == 'SELLER'}">
+                    <a href="${pageContext.request.contextPath}/seller/inventory" class="text-pink-600">Inventory</a>
+                </c:when>
 
-                <a href="${pageContext.request.contextPath}/myOrders"
-                   class="font-bold uppercase text-sm tracking-widest hover:text-blue-600 transition-colors">
-                    Orders
-                </a>
-
-                <div class="h-8 w-[2px] bg-black"></div>
-
-                <c:choose>
-                    <c:when test="${not empty sessionScope.user}">
-                        <a href="${pageContext.request.contextPath}/profile" 
-                           class="bg-pink-400 border-2 border-black px-5 py-2 font-bold uppercase text-xs shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
-                            Account
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/login"
-                           class="font-bold uppercase text-sm tracking-widest hover:underline decoration-4 decoration-blue-600 underline-offset-8">
-                            Login
-                        </a>
-
-                        <a href="${pageContext.request.contextPath}/signup"
-                           class="bg-blue-600 text-white border-2 border-black px-6 py-2 font-bold uppercase text-xs shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
-                            Sign up
-                        </a>
-                    </c:otherwise>
-                </c:choose>
-
-            </div>
-
-            <div class="md:hidden">
-                <button class="border-2 border-black p-2 bg-yellow-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="square" stroke-linejoin="round" stroke-width="3" d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
-            </div>
-
+                <c:when test="${sessionScope.user.role == 'CUSTOMER'}">
+                    <a href="${pageContext.request.contextPath}/cart" class="bg-yellow-300 border-2 border-black px-3 py-1 flex items-center gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                        Cart 🛒
+                    </a>
+                </c:when>
+            </c:choose>
         </div>
-    </div>
-</nav>
+
+        <div class="flex items-center gap-4 flex-shrink-0">
+            <c:choose>
+                <c:when test="${not empty sessionScope.user}">
+                    <div class="flex items-center gap-4">
+                        <a href="${pageContext.request.contextPath}/profile" class="font-black text-[10px] uppercase border-b-2 border-black italic">
+                            ${sessionScope.user.name}
+                        </a>
+                        <a href="${pageContext.request.contextPath}/logout" 
+                           class="bg-black text-white px-4 py-2 text-[10px] font-black uppercase border-2 border-black hover:bg-red-500 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
+                            Logout
+                        </a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/login" class="font-black uppercase text-xs hover:text-blue-600">Login</a>
+                    <a href="${pageContext.request.contextPath}/signup" 
+                       class="bg-blue-600 text-white px-6 py-2 font-black uppercase text-xs border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
+                        Join
+                    </a>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </nav>
+</header>
