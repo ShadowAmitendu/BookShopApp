@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="Inventory Management - BookShelf" />
+    <jsp:param name="title" value="Inventory Management - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-7xl mx-auto">
@@ -54,56 +54,56 @@
                             <div class="overflow-x-auto">
                                 <table class="w-full">
                                     <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="px-6 py-3 text-left font-black uppercase">Book</th>
-                                            <th class="px-6 py-3 text-left font-black uppercase">Stock</th>
-                                            <th class="px-6 py-3 text-left font-black uppercase">Price</th>
-                                            <th class="px-6 py-3 text-left font-black uppercase">Status</th>
-                                            <th class="px-6 py-3 text-left font-black uppercase">Actions</th>
-                                        </tr>
+                                    <tr>
+                                        <th class="px-6 py-3 text-left font-black uppercase">Book</th>
+                                        <th class="px-6 py-3 text-left font-black uppercase">Stock</th>
+                                        <th class="px-6 py-3 text-left font-black uppercase">Price</th>
+                                        <th class="px-6 py-3 text-left font-black uppercase">Status</th>
+                                        <th class="px-6 py-3 text-left font-black uppercase">Actions</th>
+                                    </tr>
                                     </thead>
                                     <tbody class="divide-y-2 divide-gray-200">
-                                        <c:forEach var="item" items="${inventory}">
-                                            <tr>
-                                                <td class="px-6 py-4">
-                                                    <div class="flex items-center space-x-3">
-                                                        <div class="w-12 h-16 flex-shrink-0">
-                                                            <img src="https://via.placeholder.com/48x64?text=Book"
-                                                                 alt="Book cover"
-                                                                 class="w-full h-full object-cover border-2 border-black">
-                                                        </div>
-                                                        <div>
-                                                            <p class="font-bold">Book Title ${item.bookId}</p>
-                                                            <p class="text-sm text-gray-600">ISBN: ${item.bookId}</p>
-                                                        </div>
+                                    <c:forEach var="item" items="${inventory}">
+                                        <tr>
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-12 h-16 flex-shrink-0">
+                                                        <img src="https://via.placeholder.com/48x64?text=Book"
+                                                             alt="Book cover"
+                                                             class="w-full h-full object-cover border-2 border-black">
                                                     </div>
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <span class="font-bold">${item.quantity}</span>
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <span class="font-bold text-blue-600">₹${item.sellerPrice}</span>
-                                                </td>
-                                                <td class="px-6 py-4">
+                                                    <div>
+                                                        <p class="font-bold">Book Title ${item.bookId}</p>
+                                                        <p class="text-sm text-gray-600">ISBN: ${item.bookId}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <span class="font-bold">${item.quantity}</span>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <span class="font-bold text-blue-600">₹${item.sellerPrice}</span>
+                                            </td>
+                                            <td class="px-6 py-4">
                                                     <span class="px-2 py-1 font-bold border-2 border-black text-xs
                                                         ${item.status == 'AVAILABLE' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}">
-                                                        ${item.status}
+                                                            ${item.status}
                                                     </span>
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <div class="flex space-x-2">
-                                                        <button onclick="editInventory(${item.id}, ${item.quantity}, ${item.sellerPrice})"
-                                                                class="bg-blue-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-blue-600 transition-colors text-sm">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button onclick="deleteInventory(${item.id})"
-                                                                class="bg-red-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-red-600 transition-colors text-sm">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div class="flex space-x-2">
+                                                    <button onclick="editInventory(${item.id}, ${item.quantity}, ${item.sellerPrice})"
+                                                            class="bg-blue-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-blue-600 transition-colors text-sm">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button onclick="deleteInventory(${item.id})"
+                                                            class="bg-red-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-red-600 transition-colors text-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -181,45 +181,45 @@
     </div>
 </div>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 
 <script>
-function editInventory(itemId, quantity, price) {
-    document.getElementById('editItemId').value = itemId;
-    document.getElementById('editQuantity').value = quantity;
-    document.getElementById('editPrice').value = price;
-    document.getElementById('editModal').classList.remove('hidden');
-}
-
-function closeModal() {
-    document.getElementById('editModal').classList.add('hidden');
-}
-
-function deleteInventory(itemId) {
-    if (confirm('Delete this item from inventory?')) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '${pageContext.request.contextPath}/seller/inventory';
-
-        const actionInput = document.createElement('input');
-        actionInput.type = 'hidden';
-        actionInput.name = 'action';
-        actionInput.value = 'delete';
-
-        const itemIdInput = document.createElement('input');
-        itemIdInput.type = 'hidden';
-        itemIdInput.name = 'itemId';
-        itemIdInput.value = itemId;
-
-        form.appendChild(actionInput);
-        form.appendChild(itemIdInput);
-        document.body.appendChild(form);
-        form.submit();
+    function editInventory(itemId, quantity, price) {
+        document.getElementById('editItemId').value = itemId;
+        document.getElementById('editQuantity').value = quantity;
+        document.getElementById('editPrice').value = price;
+        document.getElementById('editModal').classList.remove('hidden');
     }
-}
 
-function showAddInventoryModal() {
-    showToast('info', 'Add to inventory feature coming soon!');
-}
+    function closeModal() {
+        document.getElementById('editModal').classList.add('hidden');
+    }
+
+    function deleteInventory(itemId) {
+        if (confirm('Delete this item from inventory?')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '${pageContext.request.contextPath}/seller/inventory';
+
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'delete';
+
+            const itemIdInput = document.createElement('input');
+            itemIdInput.type = 'hidden';
+            itemIdInput.name = 'itemId';
+            itemIdInput.value = itemId;
+
+            form.appendChild(actionInput);
+            form.appendChild(itemIdInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    function showAddInventoryModal() {
+        showToast('info', 'Add to inventory feature coming soon!');
+    }
 </script>
 

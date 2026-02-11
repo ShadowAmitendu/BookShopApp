@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="Manage Users - BookShelf Admin" />
+    <jsp:param name="title" value="Manage Users - BookShelf Admin"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-7xl mx-auto">
@@ -72,74 +72,80 @@
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-6 py-3 text-left font-black uppercase">User</th>
-                            <th class="px-6 py-3 text-left font-black uppercase">Role</th>
-                            <th class="px-6 py-3 text-left font-black uppercase">Contact</th>
-                            <th class="px-6 py-3 text-left font-black uppercase">Status</th>
-                            <th class="px-6 py-3 text-left font-black uppercase">Actions</th>
-                        </tr>
+                    <tr>
+                        <th class="px-6 py-3 text-left font-black uppercase">User</th>
+                        <th class="px-6 py-3 text-left font-black uppercase">Role</th>
+                        <th class="px-6 py-3 text-left font-black uppercase">Contact</th>
+                        <th class="px-6 py-3 text-left font-black uppercase">Status</th>
+                        <th class="px-6 py-3 text-left font-black uppercase">Actions</th>
+                    </tr>
                     </thead>
                     <tbody class="divide-y-2 divide-gray-200">
-                        <c:forEach var="user" items="${userList}">
-                            <tr>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 bg-black border-2 border-yellow-300 rounded-full flex items-center justify-center">
-                                            <i class="fas fa-user text-yellow-300 text-sm"></i>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">${user.name}</p>
-                                            <p class="text-sm text-gray-600">${user.email}</p>
-                                        </div>
+                    <c:forEach var="user" items="${userList}">
+                        <tr>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-black border-2 border-yellow-300 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-user text-yellow-300 text-sm"></i>
                                     </div>
-                                </td>
-                                <td class="px-6 py-4">
+                                    <div>
+                                        <p class="font-bold">${user.name}</p>
+                                        <p class="text-sm text-gray-600">${user.email}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
                                     <span class="px-3 py-1 font-bold border-2 border-black text-xs
                                         ${user.role == 'ADMIN' ? 'bg-red-200 text-red-800' :
                                           user.role == 'SELLER' ? 'bg-blue-200 text-blue-800' :
                                           'bg-green-200 text-green-800'}">
-                                        ${user.role}
+                                            ${user.role}
                                     </span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="text-sm">
-                                        <p><i class="fas fa-phone mr-1"></i>${user.phoneNumber != null ? user.phoneNumber : 'N/A'}</p>
-                                        <p class="truncate max-w-xs" title="${user.address}"><i class="fas fa-map-marker-alt mr-1"></i>${user.address != null ? user.address : 'N/A'}</p>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm">
+                                    <p>
+                                        <i class="fas fa-phone mr-1"></i>${user.phoneNumber != null ? user.phoneNumber : 'N/A'}
+                                    </p>
+                                    <p class="truncate max-w-xs" title="${user.address}"><i
+                                            class="fas fa-map-marker-alt mr-1"></i>${user.address != null ? user.address : 'N/A'}
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
                                     <span class="px-2 py-1 bg-green-200 text-green-800 font-bold border-2 border-black text-xs">
                                         ACTIVE
                                     </span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex space-x-2">
-                                        <button onclick="editUser(${user.id}, '${user.name}', '${user.email}', '${user.role}')"
-                                                class="bg-blue-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-blue-600 transition-colors text-sm">
-                                            <i class="fas fa-edit"></i>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex space-x-2">
+                                    <button onclick="editUser(${user.id}, '${user.name}', '${user.email}', '${user.role}')"
+                                            class="bg-blue-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-blue-600 transition-colors text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <form action="${pageContext.request.contextPath}/admin/manage-users" method="post"
+                                          class="inline">
+                                        <input type="hidden" name="action" value="toggleStatus">
+                                        <input type="hidden" name="userId" value="${user.id}">
+                                        <button type="submit"
+                                                class="bg-yellow-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-yellow-600 transition-colors text-sm">
+                                            <i class="fas fa-ban"></i>
                                         </button>
-                                        <form action="${pageContext.request.contextPath}/admin/manage-users" method="post" class="inline">
-                                            <input type="hidden" name="action" value="toggleStatus">
-                                            <input type="hidden" name="userId" value="${user.id}">
-                                            <button type="submit"
-                                                    class="bg-yellow-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-yellow-600 transition-colors text-sm">
-                                                <i class="fas fa-ban"></i>
-                                            </button>
-                                        </form>
-                                        <form action="${pageContext.request.contextPath}/admin/manage-users" method="post" class="inline">
-                                            <input type="hidden" name="action" value="delete">
-                                            <input type="hidden" name="userId" value="${user.id}">
-                                            <button type="submit"
-                                                    onclick="return confirm('Delete this user permanently?')"
-                                                    class="bg-red-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-red-600 transition-colors text-sm">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                                    </form>
+                                    <form action="${pageContext.request.contextPath}/admin/manage-users" method="post"
+                                          class="inline">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="userId" value="${user.id}">
+                                        <button type="submit"
+                                                onclick="return confirm('Delete this user permanently?')"
+                                                class="bg-red-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-red-600 transition-colors text-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -212,19 +218,19 @@
     </div>
 </div>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 
 <script>
-function editUser(userId, name, email, role) {
-    document.getElementById('editUserId').value = userId;
-    document.getElementById('editName').value = name;
-    document.getElementById('editEmail').value = email;
-    document.getElementById('editRole').value = role;
-    document.getElementById('editModal').classList.remove('hidden');
-}
+    function editUser(userId, name, email, role) {
+        document.getElementById('editUserId').value = userId;
+        document.getElementById('editName').value = name;
+        document.getElementById('editEmail').value = email;
+        document.getElementById('editRole').value = role;
+        document.getElementById('editModal').classList.remove('hidden');
+    }
 
-function closeModal() {
-    document.getElementById('editModal').classList.add('hidden');
-}
+    function closeModal() {
+        document.getElementById('editModal').classList.add('hidden');
+    }
 </script>
 

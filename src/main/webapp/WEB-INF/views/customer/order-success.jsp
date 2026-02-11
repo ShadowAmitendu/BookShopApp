@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="Order Success - BookShelf" />
+    <jsp:param name="title" value="Order Success - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-4xl mx-auto text-center">
@@ -29,7 +29,9 @@
                     <h3 class="text-xl font-bold uppercase mb-3">Order Information</h3>
                     <div class="space-y-2">
                         <p><span class="font-bold">Order ID:</span> #${orderId}</p>
-                        <p><span class="font-bold">Date:</span> ${java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy 'at' hh:mm a"))}</p>
+                        <p><span
+                                class="font-bold">Date:</span> ${java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy 'at' hh:mm a"))}
+                        </p>
                         <p><span class="font-bold">Status:</span>
                             <span class="px-2 py-1 bg-yellow-200 text-yellow-800 font-bold border-2 border-black text-xs">
                                 PENDING
@@ -99,5 +101,5 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 

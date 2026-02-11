@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="My Profile - BookShelf" />
+    <jsp:param name="title" value="My Profile - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-4xl mx-auto">
@@ -128,7 +128,8 @@
 
                         <div class="space-y-4 mb-6">
                             <div>
-                                <label for="currentPassword" class="block text-sm font-bold uppercase tracking-wider mb-2">
+                                <label for="currentPassword"
+                                       class="block text-sm font-bold uppercase tracking-wider mb-2">
                                     Current Password
                                 </label>
                                 <input type="password"
@@ -148,11 +149,13 @@
                                        required
                                        minlength="8"
                                        class="w-full px-4 py-3 border-2 border-black focus:outline-none focus:border-blue-600">
-                                <p class="text-xs text-gray-600 mt-1">Must be at least 8 characters with letters and numbers</p>
+                                <p class="text-xs text-gray-600 mt-1">Must be at least 8 characters with letters and
+                                    numbers</p>
                             </div>
 
                             <div>
-                                <label for="confirmPassword" class="block text-sm font-bold uppercase tracking-wider mb-2">
+                                <label for="confirmPassword"
+                                       class="block text-sm font-bold uppercase tracking-wider mb-2">
                                     Confirm New Password
                                 </label>
                                 <input type="password"
@@ -175,19 +178,19 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 
 <script>
-// Password confirmation validation
-document.querySelector('form[action*="changePassword"]').addEventListener('submit', function(e) {
-    const newPassword = document.getElementById('newPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+    // Password confirmation validation
+    document.querySelector('form[action*="changePassword"]').addEventListener('submit', function (e) {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
 
-    if (newPassword !== confirmPassword) {
-        e.preventDefault();
-        showToast('error', 'New passwords do not match!');
-        return false;
-    }
-});
+        if (newPassword !== confirmPassword) {
+            e.preventDefault();
+            showToast('error', 'New passwords do not match!');
+            return false;
+        }
+    });
 </script>
 

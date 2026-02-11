@@ -1,4 +1,4 @@
-﻿package com.amitendu.bookstoreapp.servlet.customer;
+package com.amitendu.bookstoreapp.servlet.customer;
 
 import com.amitendu.bookstoreapp.dao.OrderDAO;
 import com.amitendu.bookstoreapp.model.Order;

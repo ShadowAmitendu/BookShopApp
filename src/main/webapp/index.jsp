@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
-<jsp:include page="/jsp/components/head.jsp">
+<jsp:include page="/WEB-INF/components/head.jsp">
     <jsp:param name="title" value="BookShelf - Your Online Bookstore"/>
 </jsp:include>
 
-<jsp:include page="/jsp/components/navbar.jsp"/>
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/jsp/components/alerts.jsp"/>
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <!-- Hero Section -->
 <main class="flex-grow flex items-center justify-center px-4 py-20">
@@ -122,6 +122,6 @@
     </div>
 </section>
 
-<jsp:include page="/jsp/components/footer.jsp"/>
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 
 

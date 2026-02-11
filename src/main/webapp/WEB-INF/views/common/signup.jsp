@@ -6,21 +6,12 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account | Bookshelf</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-    <style>body {
-        font-family: 'Space Grotesk', sans-serif;
-    }</style>
-</head>
-<body class="bg-[#F3F4F6] min-h-screen flex flex-col">
 
-<jsp:include page="/includes/header.jsp"/>
+<jsp:include page="/WEB-INF/components/head.jsp">
+    <jsp:param name="title" value="Create Account - BookShelf"/>
+</jsp:include>
+
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
 <main class="flex-grow flex items-center justify-center px-4 py-12">
     <div class="max-w-md w-full">
@@ -79,6 +70,4 @@
     </div>
 </main>
 
-<jsp:include page="/includes/footer.jsp"/>
-</body>
-</html>
+<jsp:include page="/WEB-INF/components/footer.jsp"/>

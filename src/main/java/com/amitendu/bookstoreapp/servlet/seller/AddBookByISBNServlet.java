@@ -1,15 +1,16 @@
-﻿package com.amitendu.bookstoreapp.servlet.seller;
+package com.amitendu.bookstoreapp.servlet.seller;
 
 import com.amitendu.bookstoreapp.dao.BookDAO;
 import com.amitendu.bookstoreapp.model.Book;
 import com.amitendu.bookstoreapp.model.User;
 import com.amitendu.bookstoreapp.util.SessionUtil;
 import com.amitendu.bookstoreapp.util.ValidationUtil;
-import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 /**
  * Servlet for adding books to the catalog by ISBN.
@@ -61,7 +62,7 @@ public class AddBookByISBNServlet extends HttpServlet {
 
         // Validate required fields
         if (ValidationUtil.isEmpty(title) || ValidationUtil.isEmpty(author) ||
-            ValidationUtil.isEmpty(category) || ValidationUtil.isEmpty(priceStr)) {
+                ValidationUtil.isEmpty(category) || ValidationUtil.isEmpty(priceStr)) {
             request.setAttribute("error", "Please fill in all required fields");
             doGet(request, response);
             return;
@@ -113,14 +114,14 @@ public class AddBookByISBNServlet extends HttpServlet {
             newBook.setCategory(category);
             newBook.setDescription(description);
             newBook.setImageUrl(ValidationUtil.isEmpty(imageUrl) ?
-                "https://via.placeholder.com/200x300?text=No+Image" : imageUrl);
+                    "https://via.placeholder.com/200x300?text=No+Image" : imageUrl);
             newBook.setStockQuantity(0); // Will be set when added to inventory
 
             boolean success = bookDAO.addBook(newBook);
 
             if (success) {
                 request.getSession().setAttribute("success",
-                    "Book added successfully! You can now add it to your inventory.");
+                        "Book added successfully! You can now add it to your inventory.");
                 response.sendRedirect(request.getContextPath() + "/seller/inventory");
             } else {
                 request.setAttribute("error", "Failed to add book. Please try again.");

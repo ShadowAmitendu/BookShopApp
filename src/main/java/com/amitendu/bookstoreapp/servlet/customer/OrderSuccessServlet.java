@@ -1,12 +1,13 @@
-﻿package com.amitendu.bookstoreapp.servlet.customer;
+package com.amitendu.bookstoreapp.servlet.customer;
 
 import com.amitendu.bookstoreapp.model.User;
 import com.amitendu.bookstoreapp.util.SessionUtil;
-import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 /**
  * Servlet for displaying order success page.

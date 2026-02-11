@@ -1,14 +1,15 @@
-﻿package com.amitendu.bookstoreapp.servlet.admin;
+package com.amitendu.bookstoreapp.servlet.admin;
 
 import com.amitendu.bookstoreapp.dao.UserDAO;
 import com.amitendu.bookstoreapp.model.User;
 import com.amitendu.bookstoreapp.util.SessionUtil;
-import java.io.IOException;
-import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet for approving seller accounts.

@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="Admin Dashboard - BookShelf" />
+    <jsp:param name="title" value="Admin Dashboard - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-7xl mx-auto">
@@ -138,5 +138,5 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 

@@ -2,12 +2,12 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="Seller Dashboard - BookShelf" />
+    <jsp:param name="title" value="Seller Dashboard - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-7xl mx-auto">
@@ -111,29 +111,29 @@
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead class="bg-gray-100">
-                                <tr>
-                                    <th class="px-4 py-2 text-left font-black uppercase">Order ID</th>
-                                    <th class="px-4 py-2 text-left font-black uppercase">Date</th>
-                                    <th class="px-4 py-2 text-left font-black uppercase">Amount</th>
-                                    <th class="px-4 py-2 text-left font-black uppercase">Status</th>
-                                </tr>
+                            <tr>
+                                <th class="px-4 py-2 text-left font-black uppercase">Order ID</th>
+                                <th class="px-4 py-2 text-left font-black uppercase">Date</th>
+                                <th class="px-4 py-2 text-left font-black uppercase">Amount</th>
+                                <th class="px-4 py-2 text-left font-black uppercase">Status</th>
+                            </tr>
                             </thead>
                             <tbody class="divide-y-2 divide-gray-200">
-                                <c:forEach var="order" items="${recentOrders}" begin="0" end="9">
-                                    <tr>
-                                        <td class="px-4 py-2 font-bold">#${order.id}</td>
-                                        <td class="px-4 py-2">${order.orderDate}</td>
-                                        <td class="px-4 py-2 font-bold text-blue-600">₹${order.totalAmount}</td>
-                                        <td class="px-4 py-2">
+                            <c:forEach var="order" items="${recentOrders}" begin="0" end="9">
+                                <tr>
+                                    <td class="px-4 py-2 font-bold">#${order.id}</td>
+                                    <td class="px-4 py-2">${order.orderDate}</td>
+                                    <td class="px-4 py-2 font-bold text-blue-600">₹${order.totalAmount}</td>
+                                    <td class="px-4 py-2">
                                             <span class="px-2 py-1 font-bold border-2 border-black text-xs
                                                 ${order.status == 'DELIVERED' ? 'bg-green-200 text-green-800' :
                                                   order.status == 'SHIPPED' ? 'bg-blue-200 text-blue-800' :
                                                   'bg-yellow-200 text-yellow-800'}">
-                                                ${order.status}
+                                                    ${order.status}
                                             </span>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </div>
@@ -150,5 +150,5 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 

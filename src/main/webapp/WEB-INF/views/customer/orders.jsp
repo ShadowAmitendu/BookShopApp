@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="My Orders - BookShelf" />
+    <jsp:param name="title" value="My Orders - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-6xl mx-auto">
@@ -30,7 +30,7 @@
                                     <h3 class="text-xl font-black uppercase">Order #${order.id}</h3>
                                     <p class="text-gray-600">
                                         <i class="fas fa-calendar mr-1"></i>
-                                        ${order.orderDate.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy 'at' hh:mm a"))}
+                                            ${order.orderDate.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy 'at' hh:mm a"))}
                                     </p>
                                 </div>
                                 <div class="text-right">
@@ -39,7 +39,7 @@
                                           order.status == 'SHIPPED' ? 'bg-blue-200 text-blue-800' :
                                           order.status == 'PENDING' ? 'bg-yellow-200 text-yellow-800' :
                                           'bg-red-200 text-red-800'}">
-                                        ${order.status}
+                                            ${order.status}
                                     </span>
                                     <p class="text-2xl font-black text-blue-600 mt-2">₹${order.totalAmount}</p>
                                 </div>
@@ -68,7 +68,8 @@
                                     </button>
 
                                     <c:if test="${order.status == 'PENDING'}">
-                                        <form action="${pageContext.request.contextPath}/orders" method="post" class="inline">
+                                        <form action="${pageContext.request.contextPath}/orders" method="post"
+                                              class="inline">
                                             <input type="hidden" name="action" value="cancel">
                                             <input type="hidden" name="orderId" value="${order.id}">
                                             <button type="submit"
@@ -120,12 +121,12 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 
 <script>
-function viewOrderDetails(orderId) {
-    // For now, just show a message. In production, this would open a modal or redirect to order details page
-    showToast('info', 'Order details for #' + orderId + ' (Feature coming soon!)');
-}
+    function viewOrderDetails(orderId) {
+        // For now, just show a message. In production, this would open a modal or redirect to order details page
+        showToast('info', 'Order details for #' + orderId + ' (Feature coming soon!)');
+    }
 </script>
 

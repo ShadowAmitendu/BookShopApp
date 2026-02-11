@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="Seller Orders - BookShelf" />
+    <jsp:param name="title" value="Seller Orders - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-7xl mx-auto">
@@ -50,57 +50,68 @@
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead class="bg-gray-100">
-                                <tr>
-                                    <th class="px-6 py-3 text-left font-black uppercase">Order ID</th>
-                                    <th class="px-6 py-3 text-left font-black uppercase">Customer</th>
-                                    <th class="px-6 py-3 text-left font-black uppercase">Date</th>
-                                    <th class="px-6 py-3 text-left font-black uppercase">Amount</th>
-                                    <th class="px-6 py-3 text-left font-black uppercase">Status</th>
-                                    <th class="px-6 py-3 text-left font-black uppercase">Actions</th>
-                                </tr>
+                            <tr>
+                                <th class="px-6 py-3 text-left font-black uppercase">Order ID</th>
+                                <th class="px-6 py-3 text-left font-black uppercase">Customer</th>
+                                <th class="px-6 py-3 text-left font-black uppercase">Date</th>
+                                <th class="px-6 py-3 text-left font-black uppercase">Amount</th>
+                                <th class="px-6 py-3 text-left font-black uppercase">Status</th>
+                                <th class="px-6 py-3 text-left font-black uppercase">Actions</th>
+                            </tr>
                             </thead>
                             <tbody class="divide-y-2 divide-gray-200">
-                                <c:forEach var="order" items="${sellerOrders}">
-                                    <tr>
-                                        <td class="px-6 py-4 font-bold">#${order.id}</td>
-                                        <td class="px-6 py-4">
-                                            <div>
-                                                <p class="font-bold">Customer ${order.customerId}</p>
-                                                <p class="text-sm text-gray-600">${order.shippingAddress}</p>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4">
+                            <c:forEach var="order" items="${sellerOrders}">
+                                <tr>
+                                    <td class="px-6 py-4 font-bold">#${order.id}</td>
+                                    <td class="px-6 py-4">
+                                        <div>
+                                            <p class="font-bold">Customer ${order.customerId}</p>
+                                            <p class="text-sm text-gray-600">${order.shippingAddress}</p>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
                                             ${order.orderDate.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy"))}
-                                        </td>
-                                        <td class="px-6 py-4 font-bold text-blue-600">₹${order.totalAmount}</td>
-                                        <td class="px-6 py-4">
-                                            <form action="${pageContext.request.contextPath}/seller/orders" method="post" class="inline">
-                                                <input type="hidden" name="action" value="updateStatus">
-                                                <input type="hidden" name="orderId" value="${order.id}">
-                                                <select name="status"
-                                                        onchange="this.form.submit()"
-                                                        class="px-3 py-1 font-bold border-2 border-black text-sm
+                                    </td>
+                                    <td class="px-6 py-4 font-bold text-blue-600">₹${order.totalAmount}</td>
+                                    <td class="px-6 py-4">
+                                        <form action="${pageContext.request.contextPath}/seller/orders" method="post"
+                                              class="inline">
+                                            <input type="hidden" name="action" value="updateStatus">
+                                            <input type="hidden" name="orderId" value="${order.id}">
+                                            <select name="status"
+                                                    onchange="this.form.submit()"
+                                                    class="px-3 py-1 font-bold border-2 border-black text-sm
                                                             ${order.status == 'PENDING' ? 'bg-yellow-200 text-yellow-800' :
                                                               order.status == 'CONFIRMED' ? 'bg-blue-200 text-blue-800' :
                                                               order.status == 'SHIPPED' ? 'bg-purple-200 text-purple-800' :
                                                               order.status == 'DELIVERED' ? 'bg-green-200 text-green-800' :
                                                               'bg-red-200 text-red-800'}">
-                                                    <option value="PENDING" ${order.status == 'PENDING' ? 'selected' : ''}>Pending</option>
-                                                    <option value="CONFIRMED" ${order.status == 'CONFIRMED' ? 'selected' : ''}>Confirmed</option>
-                                                    <option value="SHIPPED" ${order.status == 'SHIPPED' ? 'selected' : ''}>Shipped</option>
-                                                    <option value="DELIVERED" ${order.status == 'DELIVERED' ? 'selected' : ''}>Delivered</option>
-                                                    <option value="CANCELLED" ${order.status == 'CANCELLED' ? 'selected' : ''}>Cancelled</option>
-                                                </select>
-                                            </form>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <button onclick="viewOrderDetails(${order.id})"
-                                                    class="bg-blue-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-blue-600 transition-colors text-sm">
-                                                <i class="fas fa-eye mr-1"></i>Details
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                                                <option value="PENDING" ${order.status == 'PENDING' ? 'selected' : ''}>
+                                                    Pending
+                                                </option>
+                                                <option value="CONFIRMED" ${order.status == 'CONFIRMED' ? 'selected' : ''}>
+                                                    Confirmed
+                                                </option>
+                                                <option value="SHIPPED" ${order.status == 'SHIPPED' ? 'selected' : ''}>
+                                                    Shipped
+                                                </option>
+                                                <option value="DELIVERED" ${order.status == 'DELIVERED' ? 'selected' : ''}>
+                                                    Delivered
+                                                </option>
+                                                <option value="CANCELLED" ${order.status == 'CANCELLED' ? 'selected' : ''}>
+                                                    Cancelled
+                                                </option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button onclick="viewOrderDetails(${order.id})"
+                                                class="bg-blue-500 text-white px-3 py-1 font-bold border-2 border-black hover:bg-blue-600 transition-colors text-sm">
+                                            <i class="fas fa-eye mr-1"></i>Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </div>
@@ -122,12 +133,12 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 
 <script>
-function viewOrderDetails(orderId) {
-    // For now, just show a message. In production, this would open a modal or redirect to order details page
-    showToast('info', 'Order details for #' + orderId + ' (Feature coming soon!)');
-}
+    function viewOrderDetails(orderId) {
+        // For now, just show a message. In production, this would open a modal or redirect to order details page
+        showToast('info', 'Order details for #' + orderId + ' (Feature coming soon!)');
+    }
 </script>
 

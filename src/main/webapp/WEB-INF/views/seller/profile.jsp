@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="Seller Profile - BookShelf" />
+    <jsp:param name="title" value="Seller Profile - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-5xl mx-auto">
@@ -188,7 +188,9 @@
                             </a>
                         </c:when>
                         <c:otherwise>
-                            <p class="text-gray-600">No books listed yet. <a href="${pageContext.request.contextPath}/seller/add-book" class="text-blue-600 font-bold">Add your first book</a></p>
+                            <p class="text-gray-600">No books listed yet. <a
+                                    href="${pageContext.request.contextPath}/seller/add-book"
+                                    class="text-blue-600 font-bold">Add your first book</a></p>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -197,5 +199,5 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 

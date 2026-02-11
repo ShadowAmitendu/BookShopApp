@@ -1,14 +1,12 @@
 package com.amitendu.bookstoreapp.servlet.common;
 
 import com.amitendu.bookstoreapp.dao.BookDAO;
-import com.amitendu.bookstoreapp.model.Book;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 /**
  * Servlet for searching books.

@@ -1,4 +1,4 @@
-﻿package com.amitendu.bookstoreapp.servlet.auth;
+package com.amitendu.bookstoreapp.servlet.auth;
 
 import com.amitendu.bookstoreapp.dao.UserDAO;
 import com.amitendu.bookstoreapp.util.ValidationUtil;

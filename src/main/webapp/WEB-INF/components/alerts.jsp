@@ -2,185 +2,104 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.functions" prefix="fn" %>
 
-<!-- Toast Container - Fixed position at top-right -->
-<div id="toast-container" class="fixed top-4 right-4 z-50 space-y-3" style="max-width: 400px;"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-<!-- Initialize toasts from server-side messages -->
-<c:if test="${not empty requestScope.success or not empty requestScope.error or not empty requestScope.info or not empty requestScope.warning}">
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            <c:if test="${not empty requestScope.success}">
-            showToast('success', '${requestScope.success}');
-            </c:if>
-
-            <c:if test="${not empty requestScope.error}">
-            showToast('error', '${requestScope.error}');
-            </c:if>
-
-            <c:if test="${not empty requestScope.info}">
-            showToast('info', '${requestScope.info}');
-            </c:if>
-
-            <c:if test="${not empty requestScope.warning}">
-            showToast('warning', '${requestScope.warning}');
-            </c:if>
-        });
-    </script>
-</c:if>
+<div id="toast-container"
+     class="fixed top-6 right-6 z-[9999] flex flex-col items-end space-y-4 pointer-events-none"></div>
 
 <script>
     /**
-     * Show a toast notification with slide-in animation
-     * @param {string} type - Type of toast: 'success', 'error', 'info', 'warning'
-     * @param {string} message - Message to display
+     * Initializes toasts from server-side messages
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        <c:if test="${not empty requestScope.success}">
+        showToast('success', '${fn:escapeXml(requestScope.success)}');
+        </c:if>
+        <c:if test="${not empty requestScope.error}">
+        showToast('error', '${fn:escapeXml(requestScope.error)}');
+        </c:if>
+        <c:if test="${not empty requestScope.info}">
+        showToast('info', '${fn:escapeXml(requestScope.info)}');
+        </c:if>
+        <c:if test="${not empty requestScope.warning}">
+        showToast('warning', '${fn:escapeXml(requestScope.warning)}');
+        </c:if>
+    });
+
+    /**
+     * Enhanced Neubrutalist Toast Notification
      */
     function showToast(type, message) {
         const container = document.getElementById('toast-container');
         if (!container) return;
 
-        // Create toast element
         const toast = document.createElement('div');
-        toast.className = 'transform transition-all duration-500 ease-out';
-        toast.style.transform = 'translateX(450px)'; // Start off-screen to the right
-        toast.style.opacity = '0';
+        // Setting up the base wrapper
+        toast.className = 'pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] mb-4';
 
-        // Set colors and icons based on type
-        let bgColor, borderColor, textColor, icon;
-        switch (type) {
-            case 'success':
-                bgColor = 'bg-green-100';
-                borderColor = 'border-green-600';
-                textColor = 'text-green-900';
-                icon = 'fa-check-circle';
-                break;
-            case 'error':
-                bgColor = 'bg-red-100';
-                borderColor = 'border-red-600';
-                textColor = 'text-red-900';
-                icon = 'fa-exclamation-circle';
-                break;
-            case 'info':
-                bgColor = 'bg-blue-100';
-                borderColor = 'border-blue-600';
-                textColor = 'text-blue-900';
-                icon = 'fa-info-circle';
-                break;
-            case 'warning':
-                bgColor = 'bg-yellow-100';
-                borderColor = 'border-yellow-600';
-                textColor = 'text-yellow-900';
-                icon = 'fa-exclamation-triangle';
-                break;
-            default:
-                bgColor = 'bg-gray-100';
-                borderColor = 'border-gray-600';
-                textColor = 'text-gray-900';
-                icon = 'fa-bell';
-        }
+        // Neubrutalist Color Config
+        const config = {
+            success: {bg: 'bg-[#AFFC41]', icon: 'fa-check'},
+            error: {bg: 'bg-[#FF5C5C]', icon: 'fa-xmark'},
+            info: {bg: 'bg-[#33CCFF]', icon: 'fa-info'},
+            warning: {bg: 'bg-[#FFD100]', icon: 'fa-exclamation'}
+        }[type] || {bg: 'bg-white', icon: 'fa-bell'};
 
         toast.innerHTML = `
-        <div class="${bgColor} border-4 ${borderColor} p-4 flat-shadow-sm min-w-[350px]">
-            <div class="flex items-start">
-                <i class="fas ${icon} ${textColor} text-2xl mr-3 flex-shrink-0"></i>
-                <div class="flex-1">
-                    <p class="font-bold ${textColor} break-words">${fn:escapeXml(message)}</p>
+            <div class="${config.bg} border-4 border-black p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col min-w-[320px] max-w-[400px] translate-x-[150%] opacity-0 transition-all duration-300 toast-inner">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-black text-white w-8 h-8 flex items-center justify-center border-2 border-black flex-shrink-0">
+                            <i class="fas ${config.icon} text-sm"></i>
+                        </div>
+                        <span class="font-black uppercase text-[10px] tracking-widest italic">System Message</span>
+                    </div>
+                    <button onclick="dismissToast(this.parentElement.parentElement.parentElement)" class="hover:bg-black hover:text-white w-6 h-6 flex items-center justify-center border-2 border-transparent hover:border-black transition-all">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-                <button onclick="dismissToast(this)" class="ml-3 ${textColor} hover:opacity-70 transition-opacity flex-shrink-0">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
+
+                <div class="border-t-2 border-black pt-3">
+                    <p class="font-black text-xs uppercase leading-tight tracking-tight">${message}</p>
+                </div>
+
+                <div class="mt-4 h-4 bg-white border-2 border-black relative overflow-hidden">
+                    <div class="h-full bg-black toast-timer transition-all duration-[5000ms] linear" style="width: 100%;"></div>
+                </div>
             </div>
-            <!-- Progress bar -->
-            <div class="mt-3 h-1 ${bgColor} border-2 ${borderColor} overflow-hidden">
-                <div class="h-full bg-current ${textColor} toast-progress" style="width: 100%; transition: width 5s linear;"></div>
-            </div>
-        </div>
-    `;
+        `;
 
-        container.appendChild(toast);
+        container.prepend(toast);
 
-        // Trigger slide-in animation
+        // Animation Entrance
         setTimeout(() => {
-            toast.style.transform = 'translateX(0)';
-            toast.style.opacity = '1';
-        }, 10);
-
-        // Start progress bar animation
-        setTimeout(() => {
-            const progressBar = toast.querySelector('.toast-progress');
-            if (progressBar) {
-                progressBar.style.width = '0%';
-            }
+            const inner = toast.querySelector('.toast-inner');
+            inner.style.transform = 'translateX(0)';
+            inner.style.opacity = '1';
         }, 100);
 
-        // Auto-dismiss after 5 seconds
+        // Start Progress Bar
+        const timer = toast.querySelector('.toast-timer');
         setTimeout(() => {
-            dismissToast(toast);
-        }, 5000);
+            timer.style.width = '0%';
+        }, 200);
+
+        // Auto-dismiss
+        const autoDismiss = setTimeout(() => dismissToast(toast), 5200);
+
+        // Interaction: Pause on hover
+        toast.addEventListener('mouseenter', () => {
+            clearTimeout(autoDismiss);
+            timer.style.transition = 'none';
+        });
     }
 
-    /**
-     * Dismiss a toast with slide-out animation
-     * @param {Element} element - Toast element or child element
-     */
-    function dismissToast(element) {
-        const toast = element.closest('.transform');
-        if (!toast) return;
+    function dismissToast(toastElement) {
+        if (!toastElement) return;
+        const inner = toastElement.querySelector('.toast-inner');
+        inner.style.transform = 'translateX(150%)';
+        inner.style.opacity = '0';
 
-        // Slide out to the right
-        toast.style.transform = 'translateX(450px)';
-        toast.style.opacity = '0';
-
-        // Remove from DOM after animation
-        setTimeout(() => {
-            if (toast.parentElement) {
-                toast.remove();
-            }
-        }, 500);
-    }
-
-    /**
-     * Escape HTML to prevent XSS
-     * @param {string} text - Text to escape
-     * @return {string} Escaped text
-     */
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+        setTimeout(() => toastElement.remove(), 500);
     }
 </script>
-
-<style>
-    /* Ensure toast container is always on top */
-    #toast-container {
-        pointer-events: none;
-    }
-
-    #toast-container > * {
-        pointer-events: auto;
-    }
-
-    /* Smooth animations for toast appearance */
-    @keyframes slideInRight {
-        from {
-            transform: translateX(450px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(450px);
-            opacity: 0;
-        }
-    }
-</style>
-

@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
@@ -142,12 +142,16 @@
         // TODO: Implement actual AJAX call when cart backend is ready
         /*
         fetch(`
+
+
         ${contextPath}/cart/add`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: `bookId=
+
+
         ${bookId}&quantity=1`
     })
     .then(response => response.json())

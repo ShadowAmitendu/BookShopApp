@@ -2,12 +2,12 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="${book.title} - BookShelf" />
+    <jsp:param name="title" value="${book.title} - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-6xl mx-auto">
@@ -90,7 +90,8 @@
                                 <input type="hidden" name="bookId" value="${book.id}">
                                 <div class="flex gap-4 mb-4">
                                     <div class="flex-1">
-                                        <label for="quantity" class="block text-sm font-bold uppercase mb-2">Quantity</label>
+                                        <label for="quantity"
+                                               class="block text-sm font-bold uppercase mb-2">Quantity</label>
                                         <input type="number"
                                                id="quantity"
                                                name="quantity"
@@ -113,5 +114,5 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 

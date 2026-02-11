@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="Shopping Cart - BookShelf" />
+    <jsp:param name="title" value="Shopping Cart - BookShelf"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-6xl mx-auto">
@@ -54,7 +54,7 @@
                                             </button>
 
                                             <span class="w-12 text-center font-bold border-2 border-black px-2 py-1">
-                                                ${item.quantity}
+                                                    ${item.quantity}
                                             </span>
 
                                             <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})"
@@ -144,85 +144,85 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 
 <script>
-function updateQuantity(cartItemId, quantity) {
-    if (quantity < 1) {
-        if (confirm('Remove this item from cart?')) {
-            removeItem(cartItemId);
+    function updateQuantity(cartItemId, quantity) {
+        if (quantity < 1) {
+            if (confirm('Remove this item from cart?')) {
+                removeItem(cartItemId);
+            }
+            return;
         }
-        return;
+
+        showLoading();
+        fetch(`${window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2))}/cart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `action=update&cartItemId=${cartItemId}&quantity=${quantity}`
+        })
+            .then(response => {
+                hideLoading();
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    showToast('error', 'Failed to update quantity');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showToast('error', 'An error occurred');
+            });
     }
 
-    showLoading();
-    fetch(`${window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2))}/cart`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `action=update&cartItemId=${cartItemId}&quantity=${quantity}`
-    })
-    .then(response => {
-        hideLoading();
-        if (response.ok) {
-            location.reload();
-        } else {
-            showToast('error', 'Failed to update quantity');
-        }
-    })
-    .catch(error => {
-        hideLoading();
-        showToast('error', 'An error occurred');
-    });
-}
+    function removeItem(cartItemId) {
+        showLoading();
+        fetch(`${window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2))}/cart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `action=remove&cartItemId=${cartItemId}`
+        })
+            .then(response => {
+                hideLoading();
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    showToast('error', 'Failed to remove item');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showToast('error', 'An error occurred');
+            });
+    }
 
-function removeItem(cartItemId) {
-    showLoading();
-    fetch(`${window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2))}/cart`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `action=remove&cartItemId=${cartItemId}`
-    })
-    .then(response => {
-        hideLoading();
-        if (response.ok) {
-            location.reload();
-        } else {
-            showToast('error', 'Failed to remove item');
-        }
-    })
-    .catch(error => {
-        hideLoading();
-        showToast('error', 'An error occurred');
-    });
-}
+    function clearCart() {
+        if (!confirm('Clear all items from cart?')) return;
 
-function clearCart() {
-    if (!confirm('Clear all items from cart?')) return;
-
-    showLoading();
-    fetch(`${window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2))}/cart`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'action=clear'
-    })
-    .then(response => {
-        hideLoading();
-        if (response.ok) {
-            location.reload();
-        } else {
-            showToast('error', 'Failed to clear cart');
-        }
-    })
-    .catch(error => {
-        hideLoading();
-        showToast('error', 'An error occurred');
-    });
-}
+        showLoading();
+        fetch(`${window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2))}/cart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=clear'
+        })
+            .then(response => {
+                hideLoading();
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    showToast('error', 'Failed to clear cart');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showToast('error', 'An error occurred');
+            });
+    }
 </script>
 

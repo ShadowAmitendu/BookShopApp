@@ -1,13 +1,13 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/WEB-INF/components/head.jsp">
-    <jsp:param name="title" value="Approve Sellers - BookShelf Admin" />
+    <jsp:param name="title" value="Approve Sellers - BookShelf Admin"/>
 </jsp:include>
 
-<jsp:include page="/WEB-INF/components/navbar.jsp" />
+<jsp:include page="/WEB-INF/components/navbar.jsp"/>
 
-<jsp:include page="/WEB-INF/components/alerts.jsp" />
+<jsp:include page="/WEB-INF/components/alerts.jsp"/>
 
 <main class="flex-grow py-12 px-4">
     <div class="max-w-6xl mx-auto">
@@ -47,11 +47,17 @@
                                         <p class="text-gray-600 mb-2">${seller.email}</p>
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                                             <div>
-                                                <p><span class="font-bold">Phone:</span> ${seller.phoneNumber != null ? seller.phoneNumber : 'Not provided'}</p>
-                                                <p><span class="font-bold">Address:</span> ${seller.address != null ? seller.address : 'Not provided'}</p>
+                                                <p><span
+                                                        class="font-bold">Phone:</span> ${seller.phoneNumber != null ? seller.phoneNumber : 'Not provided'}
+                                                </p>
+                                                <p><span
+                                                        class="font-bold">Address:</span> ${seller.address != null ? seller.address : 'Not provided'}
+                                                </p>
                                             </div>
                                             <div>
-                                                <p><span class="font-bold">Applied:</span> ${seller.createdDate != null ? seller.createdDate : 'Recently'}</p>
+                                                <p><span
+                                                        class="font-bold">Applied:</span> ${seller.createdDate != null ? seller.createdDate : 'Recently'}
+                                                </p>
                                                 <p><span class="font-bold">Status:</span>
                                                     <span class="px-2 py-1 bg-yellow-200 text-yellow-800 font-bold border-2 border-black text-xs">
                                                         PENDING
@@ -64,7 +70,8 @@
 
                                 <!-- Action Buttons -->
                                 <div class="flex space-x-3">
-                                    <form action="${pageContext.request.contextPath}/admin/approve-sellers" method="post" class="inline">
+                                    <form action="${pageContext.request.contextPath}/admin/approve-sellers"
+                                          method="post" class="inline">
                                         <input type="hidden" name="action" value="approve">
                                         <input type="hidden" name="sellerId" value="${seller.id}">
                                         <button type="submit"
@@ -73,7 +80,8 @@
                                         </button>
                                     </form>
 
-                                    <form action="${pageContext.request.contextPath}/admin/approve-sellers" method="post" class="inline">
+                                    <form action="${pageContext.request.contextPath}/admin/approve-sellers"
+                                          method="post" class="inline">
                                         <input type="hidden" name="action" value="reject">
                                         <input type="hidden" name="sellerId" value="${seller.id}">
                                         <button type="submit"
@@ -104,5 +112,5 @@
     </div>
 </main>
 
-<jsp:include page="/WEB-INF/components/footer.jsp" />
+<jsp:include page="/WEB-INF/components/footer.jsp"/>
 

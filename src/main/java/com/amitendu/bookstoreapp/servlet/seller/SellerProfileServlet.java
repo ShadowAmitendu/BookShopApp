@@ -1,4 +1,4 @@
-﻿package com.amitendu.bookstoreapp.servlet.seller;
+package com.amitendu.bookstoreapp.servlet.seller;
 
 import com.amitendu.bookstoreapp.dao.BookDAO;
 import com.amitendu.bookstoreapp.dao.InventoryDAO;
@@ -6,13 +6,13 @@ import com.amitendu.bookstoreapp.model.Book;
 import com.amitendu.bookstoreapp.model.InventoryItem;
 import com.amitendu.bookstoreapp.model.User;
 import com.amitendu.bookstoreapp.util.SessionUtil;
-import com.amitendu.bookstoreapp.util.ValidationUtil;
-import java.io.IOException;
-import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet for managing seller inventory.

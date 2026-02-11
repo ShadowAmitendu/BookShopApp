@@ -1,15 +1,16 @@
-﻿package com.amitendu.bookstoreapp.servlet.seller;
+package com.amitendu.bookstoreapp.servlet.seller;
 
 import com.amitendu.bookstoreapp.dao.OrderDAO;
 import com.amitendu.bookstoreapp.model.Order;
 import com.amitendu.bookstoreapp.model.User;
 import com.amitendu.bookstoreapp.util.SessionUtil;
-import java.io.IOException;
-import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet for managing seller orders.
@@ -94,7 +95,7 @@ public class SellerOrdersServlet extends HttpServlet {
 
             if (success) {
                 request.getSession().setAttribute("success",
-                    "Order status updated to " + newStatus.toLowerCase());
+                        "Order status updated to " + newStatus.toLowerCase());
             } else {
                 request.getSession().setAttribute("error", "Failed to update order status");
             }
@@ -108,11 +109,11 @@ public class SellerOrdersServlet extends HttpServlet {
 
     private boolean isValidOrderStatus(String status) {
         return status != null && (
-            "PENDING".equals(status) ||
-            "CONFIRMED".equals(status) ||
-            "SHIPPED".equals(status) ||
-            "DELIVERED".equals(status) ||
-            "CANCELLED".equals(status)
+                "PENDING".equals(status) ||
+                        "CONFIRMED".equals(status) ||
+                        "SHIPPED".equals(status) ||
+                        "DELIVERED".equals(status) ||
+                        "CANCELLED".equals(status)
         );
     }
 }
