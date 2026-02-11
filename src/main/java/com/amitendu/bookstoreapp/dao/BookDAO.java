@@ -1,85 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.amitendu.bookstoreapp.dao;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.amitendu.bookstoreapp.model.Book;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- *
- * @author amite
- */
-public class BookDAO extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BookDAO</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BookDAO at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+public class BookDAO {
+    public List<Book> getAllBooks() {
+        List<Book> books = new ArrayList<>();
+        // Mock data for UI testing
+        books.add(new Book(1, "Clean Code", "Robert C. Martin", 45.00, "Engineering", "https://covers.openlibrary.org/b/id/8231845-L.jpg"));
+        books.add(new Book(2, "The Pragmatic Programmer", "Andrew Hunt", 50.00, "Engineering", "https://covers.openlibrary.org/b/id/10403331-L.jpg"));
+        books.add(new Book(3, "Atomic Habits", "James Clear", 20.00, "Self-Help", "https://covers.openlibrary.org/b/id/12864311-L.jpg"));
+        books.add(new Book(4, "Dune", "Frank Herbert", 15.00, "Fiction", "https://covers.openlibrary.org/b/id/10427301-L.jpg"));
+        return books;
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

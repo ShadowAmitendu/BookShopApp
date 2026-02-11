@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-    <servlet>
-        <servlet-name>Book</servlet-name>
-        <servlet-class>com.amitendu.bookstoreapp.model.Book</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>User</servlet-name>
-        <servlet-class>com.amitendu.bookstoreapp.model.User</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>InventoryItem</servlet-name>
-        <servlet-class>com.amitendu.bookstoreapp.model.InventoryItem</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>OracleConnection</servlet-name>
-        <servlet-class>com.amitendu.bookstoreapp.dao.OracleConnection</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>BookDAO</servlet-name>
-        <servlet-class>com.amitendu.bookstoreapp.dao.BookDAO</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>InventoryDAO</servlet-name>
-        <servlet-class>com.amitendu.bookstoreapp.dao.InventoryDAO</servlet-class>
-    </servlet>
+    <!-- Servlet Declarations -->
     <servlet>
         <servlet-name>SearchBookServlet</servlet-name>
         <servlet-class>com.amitendu.bookstoreapp.servlet.common.SearchBookServlet</servlet-class>
@@ -61,10 +38,6 @@
         <servlet-class>com.amitendu.bookstoreapp.servlet.seller.SellerProfileServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UserDAO</servlet-name>
-        <servlet-class>com.amitendu.bookstoreapp.dao.UserDAO</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>PlaceOrderServlet</servlet-name>
         <servlet-class>com.amitendu.bookstoreapp.servlet.customer.PlaceOrderServlet</servlet-class>
     </servlet>
@@ -96,105 +69,101 @@
         <servlet-name>ApproveSellerServlet</servlet-name>
         <servlet-class>com.amitendu.bookstoreapp.servlet.admin.ApproveSellerServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>Book</servlet-name>
-        <url-pattern>/Book</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>User</servlet-name>
-        <url-pattern>/User</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InventoryItem</servlet-name>
-        <url-pattern>/InventoryItem</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>OracleConnection</servlet-name>
-        <url-pattern>/OracleConnection</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>BookDAO</servlet-name>
-        <url-pattern>/BookDAO</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InventoryDAO</servlet-name>
-        <url-pattern>/InventoryDAO</url-pattern>
-    </servlet-mapping>
+    <!-- Servlet Mappings -->
+    <!-- Common -->
+    <servlet>
+        <servlet-name>header</servlet-name>
+        <servlet-class>header</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>footer</servlet-name>
+        <servlet-class>footer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SearchBookServlet</servlet-name>
-        <url-pattern>/SearchBookServlet</url-pattern>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
+    <!-- Customer Pages -->
     <servlet-mapping>
         <servlet-name>BrowseBooksServlet</servlet-name>
-        <url-pattern>/BrowseBooksServlet</url-pattern>
+        <url-pattern>/books</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CartServlet</servlet-name>
-        <url-pattern>/CartServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/LoginServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SignupServlet</servlet-name>
-        <url-pattern>/SignupServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ForgotPasswordServlet</servlet-name>
-        <url-pattern>/ForgotPasswordServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ResetPasswordServlet</servlet-name>
-        <url-pattern>/ResetPasswordServlet</url-pattern>
+        <url-pattern>/cart</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
-        <url-pattern>/UserProfileServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SellerProfileServlet</servlet-name>
-        <url-pattern>/SellerProfile</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UserDAO</servlet-name>
-        <url-pattern>/UserDAO</url-pattern>
+        <url-pattern>/profile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PlaceOrderServlet</servlet-name>
-        <url-pattern>/PlaceOrderServlet</url-pattern>
+        <url-pattern>/order</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OrderHistoryServlet</servlet-name>
-        <url-pattern>/OrderHistoryServlet</url-pattern>
+        <url-pattern>/orders</url-pattern>
+    </servlet-mapping>
+    <!-- Authentication -->
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignupServlet</servlet-name>
+        <url-pattern>/signup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <url-pattern>/forgot-password</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResetPasswordServlet</servlet-name>
+        <url-pattern>/reset-password</url-pattern>
+    </servlet-mapping>
+    <!-- Seller Pages -->
+    <servlet-mapping>
+        <servlet-name>SellerProfileServlet</servlet-name>
+        <url-pattern>/seller/profile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddBookByISBNServlet</servlet-name>
-        <url-pattern>/AddBookByISBNServlet</url-pattern>
+        <url-pattern>/seller/add-book</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateInventoryServlet</servlet-name>
-        <url-pattern>/UpdateInventoryServlet</url-pattern>
+        <url-pattern>/seller/inventory</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SellerOrdersServlet</servlet-name>
-        <url-pattern>/SellerOrdersServlet</url-pattern>
+        <url-pattern>/seller/orders</url-pattern>
     </servlet-mapping>
+    <!-- Admin Pages -->
     <servlet-mapping>
         <servlet-name>AdminDashboardServlet</servlet-name>
-        <url-pattern>/AdminDashboardServlet</url-pattern>
+        <url-pattern>/admin/dashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManageUsersServlet</servlet-name>
-        <url-pattern>/ManageUsersServlet</url-pattern>
+        <url-pattern>/admin/users</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ApproveSellerServlet</servlet-name>
-        <url-pattern>/ApproveSellerServlet</url-pattern>
+        <url-pattern>/admin/approve-seller</url-pattern>
+    </servlet-mapping>
+    <!-- /root taget file -->
+    <welcome-file-list>
+        <welcome-file>jsp/common/index.jsp</welcome-file>
+    </welcome-file-list>
+    <servlet-mapping>
+        <servlet-name>header</servlet-name>
+        <url-pattern>/header</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>footer</servlet-name>
+        <url-pattern>/footer</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
 </web-app>
