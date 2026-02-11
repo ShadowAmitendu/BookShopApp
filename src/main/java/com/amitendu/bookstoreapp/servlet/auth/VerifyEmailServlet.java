@@ -1,46 +1,89 @@
-package com.amitendu.bookstoreapp.servlet.auth;
+﻿package com.amitendu.bookstoreapp.servlet.auth;
 
-import java.io.IOException;
+import com.amitendu.bookstoreapp.dao.UserDAO;
+import com.amitendu.bookstoreapp.util.ValidationUtil;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
 
 /**
- * Controller for email verification.
- * In this mock version, it resets the session and redirects to login.
+ * Servlet for email verification.
+ *
+ * @author amite
  */
-@WebServlet("/verify-email")
 public class VerifyEmailServlet extends HttpServlet {
 
+    private UserDAO userDAO;
+
+    @Override
+    public void init() {
+        userDAO = new UserDAO();
+    }
+
     /**
-     * Handles the verification link click (usually via GET from an email).
+     * Handles email verification link clicks (GET from email).
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        // 1. Reset the session to ensure the user starts fresh after "verifying"
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
+
+        String token = request.getParameter("token");
+
+        // Validate token
+        if (ValidationUtil.isEmpty(token)) {
+            request.setAttribute("error", "Invalid verification link.");
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
         }
 
-        // 2. Redirect to login with a success parameter to show a nice message
-        response.sendRedirect(request.getContextPath() + "/login?verified=true");
+        // In production:
+        // 1. Verify token exists in database
+        // 2. Check if not expired
+        // 3. Get user ID from token
+        // 4. Update user's email_verified status
+        // 5. Invalidate token
+
+        // Mock verification
+        // boolean verified = userDAO.verifyEmail(userId, token);
+        boolean verified = true; // Mock success
+
+        if (verified) {
+            request.getSession().setAttribute("success", "Email verified successfully! You can now login.");
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else {
+            request.setAttribute("error", "Invalid or expired verification link.");
+            response.sendRedirect(request.getContextPath() + "/login");
+        }
     }
 
     /**
-     * Handles the "Resend Link" button from the verify-email.jsp.
+     * Handles resend verification email requests.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        // Mock logic: Just show the verification page again with a success message
-        request.setAttribute("message", "A new verification link has been sent to your inbox!");
-        request.getRequestDispatcher("/jsp/auth/verify-email.jsp").forward(request, response);
+
+        String email = request.getParameter("email");
+
+        // Validate email
+        if (ValidationUtil.isEmpty(email) || !ValidationUtil.isValidEmail(email)) {
+            request.setAttribute("error", "Please provide a valid email address.");
+            request.getRequestDispatcher("/WEB-INF/views/auth/verify-email.jsp").forward(request, response);
+            return;
+        }
+
+        // In production:
+        // 1. Check if email exists
+        // 2. Generate new verification token
+        // 3. Send verification email
+
+        System.out.println("Resending verification email to: " + email);
+
+        request.setAttribute("success", "Verification email has been resent! Please check your inbox.");
+        request.getRequestDispatcher("/WEB-INF/views/auth/verify-email.jsp").forward(request, response);
     }
 }
+

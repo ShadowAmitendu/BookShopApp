@@ -1,42 +1,89 @@
-package com.amitendu.bookstoreapp.servlet.admin;
+﻿package com.amitendu.bookstoreapp.servlet.admin;
 
+import com.amitendu.bookstoreapp.dao.UserDAO;
 import com.amitendu.bookstoreapp.model.User;
+import com.amitendu.bookstoreapp.util.SessionUtil;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet for approving seller accounts.
+ * Admins can approve or reject pending seller registrations.
+ *
+ * @author amite
+ */
 public class ApproveSellerServlet extends HttpServlet {
+
+    private UserDAO userDAO;
+
+    @Override
+    public void init() {
+        userDAO = new UserDAO();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Mock data for pending sellers
-        List<User> pendingSellers = new ArrayList<>();
-        // Note: I'm adding a "requestDate" string to match the JSP we built
-        // In a real app, this would be a property of the User or a SellerRequest model
+        User user = SessionUtil.getLoggedInUser(request);
+        if (user == null || !"ADMIN".equals(user.getRole())) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        // Get pending sellers (mock data for now)
+        List<User> pendingSellers = userDAO.getPendingSellers();
+
         request.setAttribute("pendingSellers", pendingSellers);
         request.setAttribute("pendingCount", pendingSellers.size());
 
-        // ✅ Corrected: Passing both request and response
-        request.getRequestDispatcher("/jsp/admin/approve-sellers.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/admin/approve-sellers.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        User user = SessionUtil.getLoggedInUser(request);
+        if (user == null || !"ADMIN".equals(user.getRole())) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
         String sellerId = request.getParameter("sellerId");
         String action = request.getParameter("action");
 
-        // Logic to approve/reject would go here
-        System.out.println("Admin Action: " + action + " on Seller ID: " + sellerId);
+        try {
+            int id = Integer.parseInt(sellerId);
 
-        // Redirect back to the list after action
-        response.sendRedirect(request.getContextPath() + "/admin/approve-seller");
+            boolean success;
+            if ("approve".equals(action)) {
+                success = userDAO.approveSeller(id);
+                if (success) {
+                    request.getSession().setAttribute("success", "Seller approved successfully");
+                } else {
+                    request.getSession().setAttribute("error", "Failed to approve seller");
+                }
+            } else if ("reject".equals(action)) {
+                success = userDAO.rejectSeller(id);
+                if (success) {
+                    request.getSession().setAttribute("success", "Seller rejected");
+                } else {
+                    request.getSession().setAttribute("error", "Failed to reject seller");
+                }
+            } else {
+                request.getSession().setAttribute("error", "Invalid action");
+            }
+
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("error", "Invalid seller ID");
+        }
+
+        response.sendRedirect(request.getContextPath() + "/admin/approve-sellers");
     }
 }
+

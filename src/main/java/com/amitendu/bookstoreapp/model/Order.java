@@ -1,87 +1,201 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.amitendu.bookstoreapp.model;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
+ * Model class representing a customer order.
  *
  * @author amite
  */
-@WebServlet(name = "Order", urlPatterns = {"/Order"})
-public class Order extends HttpServlet {
+public class Order implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private int id;
+    private int customerId;
+    private LocalDateTime orderDate;
+    private double totalAmount;
+    private String status; // PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+    private String shippingAddress;
+    private String paymentMethod;
+    private List<OrderItem> orderItems;
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Default constructor.
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Order</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Order at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+    public Order() {
+    }
+
+    /**
+     * Parameterized constructor.
+     *
+     * @param id              the order ID
+     * @param customerId      the customer ID
+     * @param orderDate       the date of order
+     * @param totalAmount     the total order amount
+     * @param status          the order status
+     * @param shippingAddress the shipping address
+     * @param paymentMethod   the payment method
+     */
+    public Order(int id, int customerId, LocalDateTime orderDate, double totalAmount,
+                 String status, String shippingAddress, String paymentMethod) {
+        this.id = id;
+        this.customerId = customerId;
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+        this.status = status;
+        this.shippingAddress = shippingAddress;
+        this.paymentMethod = paymentMethod;
+    }
+
+    // Getters
+    public int getId() {
+        return id;
+    }
+
+    // Setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", customerId=" + customerId +
+                ", orderDate=" + orderDate +
+                ", totalAmount=" + totalAmount +
+                ", status='" + status + '\'' +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                '}';
+    }
+
+    /**
+     * Inner class representing an item within an order.
+     */
+    public static class OrderItem implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        private int id;
+        private int orderId;
+        private int bookId;
+        private int quantity;
+        private double unitPrice;
+
+        public OrderItem() {
+        }
+
+        public OrderItem(int id, int orderId, int bookId, int quantity, double unitPrice) {
+            this.id = id;
+            this.orderId = orderId;
+            this.bookId = bookId;
+            this.quantity = quantity;
+            this.unitPrice = unitPrice;
+        }
+
+        // Getters
+        public int getId() {
+            return id;
+        }
+
+        // Setters
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getOrderId() {
+            return orderId;
+        }
+
+        public void setOrderId(int orderId) {
+            this.orderId = orderId;
+        }
+
+        public int getBookId() {
+            return bookId;
+        }
+
+        public void setBookId(int bookId) {
+            this.bookId = bookId;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
+
+        public double getUnitPrice() {
+            return unitPrice;
+        }
+
+        public void setUnitPrice(double unitPrice) {
+            this.unitPrice = unitPrice;
+        }
+
+        public double getSubtotal() {
+            return quantity * unitPrice;
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

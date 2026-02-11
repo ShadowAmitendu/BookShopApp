@@ -1,36 +1,80 @@
-package com.amitendu.bookstoreapp.servlet.auth;
+﻿package com.amitendu.bookstoreapp.servlet.auth;
 
-import java.io.IOException;
+import com.amitendu.bookstoreapp.dao.UserDAO;
+import com.amitendu.bookstoreapp.util.ValidationUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.util.UUID;
+
+/**
+ * Servlet for handling forgot password requests.
+ *
+ * @author amite
+ */
 public class ForgotPasswordServlet extends HttpServlet {
+
+    private UserDAO userDAO;
+
+    @Override
+    public void init() {
+        userDAO = new UserDAO();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Show the initial "Forgot Password" form
-        request.getRequestDispatcher("/jsp/auth/forgot-password.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/auth/forgot-password.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String email = request.getParameter("email");
 
-        // MOCK LOGIC: In a real app, you would:
-        // 1. Check if the email exists in Oracle.
-        // 2. Generate a secure token.
-        // 3. Send an actual email.
-        
-        System.out.println("Password reset requested for: " + email);
+        // Validate email
+        if (ValidationUtil.isEmpty(email)) {
+            request.setAttribute("error", "Please provide your email address.");
+            request.getRequestDispatcher("/WEB-INF/views/auth/forgot-password.jsp").forward(request, response);
+            return;
+        }
 
-        // SIMPLE REDIRECT (Option 2): 
-        // We simulate the user clicking a link in their email by sending them 
-        // directly to the reset-password page with a dummy token.
-        response.sendRedirect(request.getContextPath() + "/reset-password?token=mock_token_123");
+        if (!ValidationUtil.isValidEmail(email)) {
+            request.setAttribute("error", "Please provide a valid email address.");
+            request.getRequestDispatcher("/WEB-INF/views/auth/forgot-password.jsp").forward(request, response);
+            return;
+        }
+
+        // Check if email exists
+        if (!userDAO.emailExists(email)) {
+            // For security, don't reveal if email exists or not
+            request.setAttribute("success", "If an account exists with this email, you will receive password reset instructions.");
+            request.getRequestDispatcher("/WEB-INF/views/auth/forgot-password.jsp").forward(request, response);
+            return;
+        }
+
+        // Generate reset token (in production, save this to database)
+        String resetToken = UUID.randomUUID().toString();
+
+        // In production:
+        // 1. Save token to database with expiration (e.g., 1 hour)
+        // 2. Send email with reset link
+        // 3. userDAO.savePasswordResetToken(email, resetToken, expirationTime);
+
+        System.out.println("Password reset requested for: " + email);
+        System.out.println("Reset token (mock): " + resetToken);
+
+        // For development, redirect with token
+        // In production, show success message without revealing email existence
+        request.setAttribute("success", "Password reset link sent! (Development: redirecting...)");
+
+        // Auto-redirect after showing message (development only)
+        response.setHeader("refresh", "2;url=" + request.getContextPath() + "/reset-password?token=" + resetToken);
+        request.getRequestDispatcher("/WEB-INF/views/auth/forgot-password.jsp").forward(request, response);
     }
 }
+

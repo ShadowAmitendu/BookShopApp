@@ -1,36 +1,54 @@
-package com.amitendu.bookstoreapp.servlet.admin;
+﻿package com.amitendu.bookstoreapp.servlet.admin;
 
+import com.amitendu.bookstoreapp.dao.OrderDAO;
+import com.amitendu.bookstoreapp.dao.UserDAO;
+import com.amitendu.bookstoreapp.model.User;
+import com.amitendu.bookstoreapp.util.SessionUtil;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import com.amitendu.bookstoreapp.model.User;
 
+/**
+ * Servlet for admin dashboard.
+ * Shows overview statistics and system information.
+ *
+ * @author amite
+ */
 public class AdminDashboardServlet extends HttpServlet {
+
+    private UserDAO userDAO;
+    private OrderDAO orderDAO;
+
+    @Override
+    public void init() {
+        userDAO = new UserDAO();
+        orderDAO = new OrderDAO();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 1. SECURITY CHECK
-        HttpSession session = request.getSession(false);
-        User user = (session != null) ? (User) session.getAttribute("user") : null;
-
+        User user = SessionUtil.getLoggedInUser(request);
         if (user == null || !"ADMIN".equals(user.getRole())) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        // 2. MOCK DATA
+        // Mock data for dashboard - in production, get from database
         request.setAttribute("revenue", "42,900");
         request.setAttribute("activeUsers", 1204);
         request.setAttribute("booksListed", 5672);
         request.setAttribute("pendingApprovals", 7);
 
-        // 3. FORWARD TO JSP — both request AND response are required
-        request.getRequestDispatcher("/jsp/admin/admin-dashboard.jsp").forward(request, response);
+        // Additional statistics
+        request.setAttribute("totalOrders", orderDAO.getAllOrders().size());
+        request.setAttribute("pendingOrders", orderDAO.getOrderCountByStatus("PENDING"));
+        request.setAttribute("completedOrders", orderDAO.getOrderCountByStatus("DELIVERED"));
+
+        request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
     }
 
     @Override
@@ -39,3 +57,4 @@ public class AdminDashboardServlet extends HttpServlet {
         doGet(request, response);
     }
 }
+

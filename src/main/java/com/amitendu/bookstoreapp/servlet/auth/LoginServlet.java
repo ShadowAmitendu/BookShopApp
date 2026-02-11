@@ -1,18 +1,29 @@
-package com.amitendu.bookstoreapp.servlet.auth;
+﻿package com.amitendu.bookstoreapp.servlet.auth;
 
+import com.amitendu.bookstoreapp.dao.UserDAO;
 import com.amitendu.bookstoreapp.model.User;
-import java.io.IOException;
+import com.amitendu.bookstoreapp.util.SessionUtil;
+import com.amitendu.bookstoreapp.util.ValidationUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
 
 /**
- * Controller for handling user authentication. Uses hardcoded mock data for
- * Admin, Seller, and Customer roles.
+ * Controller for handling user authentication.
+ *
+ * @author amite
  */
 public class LoginServlet extends HttpServlet {
+
+    private UserDAO userDAO;
+
+    @Override
+    public void init() throws ServletException {
+        userDAO = new UserDAO();
+    }
 
     /**
      * Renders the login page.
@@ -20,8 +31,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Corrected path to match your project structure: webapp/jsp/common/login.jsp
-        request.getRequestDispatcher("/jsp/common/login.jsp").forward(request, response);
+        // Check if user is already logged in
+        if (SessionUtil.isLoggedIn(request)) {
+            User user = SessionUtil.getLoggedInUser(request);
+            redirectToRoleDashboard(user, request, response);
+            return;
+        }
+        request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
     }
 
     /**
@@ -34,45 +50,55 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        // Initialize user as null
-        User user = null;
-
-        // --- HARDCODED MOCK DATA ---
-        // Admin Account
-        if ("admin@bookshelf.com".equals(email) && "admin123".equals(password)) {
-            user = new User(email, "Amitendu (Admin)", "ADMIN");
-        } // Seller Account
-        else if ("seller@bookshelf.com".equals(email) && "seller123".equals(password)) {
-            user = new User(email, "Bibliophile Books", "SELLER");
-        } // Customer Account
-        else if ("customer@bookshelf.com".equals(email) && "customer123".equals(password)) {
-            user = new User(email, "Alice Reader", "CUSTOMER");
+        // Validate input
+        if (ValidationUtil.isEmpty(email) || ValidationUtil.isEmpty(password)) {
+            request.setAttribute("error", "Email and password are required");
+            request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
+            return;
         }
 
-        // --- AUTHENTICATION LOGIC ---
+        if (!ValidationUtil.isValidEmail(email)) {
+            request.setAttribute("error", "Please provide a valid email address");
+            request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
+            return;
+        }
+
+        // Authenticate user
+        User user = userDAO.authenticate(email, password);
+
         if (user != null) {
             // Success: Create session and store user object
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
+            SessionUtil.setUser(request, user);
+
+            // Log the login activity (optional)
+            // activityLogDAO.logActivity(user.getId(), "LOGIN", "User logged in", SessionUtil.getClientIpAddress(request));
 
             // Role-Based Redirection
-            String role = user.getRole();
-            switch (role) {
-                case "ADMIN":
-                    response.sendRedirect(request.getContextPath() + "/admin/dashboard");
-                    break;
-                case "SELLER":
-                    response.sendRedirect(request.getContextPath() + "/seller/inventory");
-                    break;
-                case "CUSTOMER":
-                default:
-                    response.sendRedirect(request.getContextPath() + "/books");
-                    break;
-            }
+            redirectToRoleDashboard(user, request, response);
         } else {
             // Failure: Return to login with error feedback
-            request.setAttribute("error", "Invalid credentials. Try: admin@bookshelf.com / admin123");
-            request.getRequestDispatcher("/jsp/common/login.jsp").forward(request, response);
+            request.setAttribute("error", "Invalid email or password");
+            request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
+        }
+    }
+
+    /**
+     * Redirects user to their role-specific dashboard.
+     */
+    private void redirectToRoleDashboard(User user, HttpServletRequest request,
+                                         HttpServletResponse response) throws IOException {
+        String role = user.getRole();
+        switch (role) {
+            case "ADMIN":
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                break;
+            case "SELLER":
+                response.sendRedirect(request.getContextPath() + "/seller/inventory");
+                break;
+            case "CUSTOMER":
+            default:
+                response.sendRedirect(request.getContextPath() + "/books");
+                break;
         }
     }
 }

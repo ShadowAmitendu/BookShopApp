@@ -1,85 +1,71 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.amitendu.bookstoreapp.dao;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.amitendu.bookstoreapp.model.InventoryItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * Data Access Object for Inventory operations.
  *
  * @author amite
  */
-public class InventoryDAO extends HttpServlet {
+public class InventoryDAO {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Retrieves all inventory items for a specific seller.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param sellerId the ID of the seller
+     * @return List of inventory items
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet InventoryDAO</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet InventoryDAO at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    public List<InventoryItem> getInventoryBySeller(int sellerId) {
+        List<InventoryItem> items = new ArrayList<>();
+        // TODO: Implement actual database query
+        // Mock data for now
+        return items;
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Adds a new inventory item.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param item the inventory item to add
+     * @return true if successful, false otherwise
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    public boolean addInventoryItem(InventoryItem item) {
+        // TODO: Implement actual database insert
+        return false;
     }
 
     /**
-     * Returns a short description of the servlet.
+     * Updates an existing inventory item.
      *
-     * @return a String containing servlet description
+     * @param item the inventory item to update
+     * @return true if successful, false otherwise
      */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    public boolean updateInventoryItem(InventoryItem item) {
+        // TODO: Implement actual database update
+        return false;
+    }
 
+    /**
+     * Deletes an inventory item by ID.
+     *
+     * @param itemId the ID of the item to delete
+     * @return true if successful, false otherwise
+     */
+    public boolean deleteInventoryItem(int itemId) {
+        // TODO: Implement actual database delete
+        return false;
+    }
+
+    /**
+     * Gets the current stock quantity for a book.
+     *
+     * @param bookId the ID of the book
+     * @return the stock quantity
+     */
+    public int getStockQuantity(int bookId) {
+        // TODO: Implement actual database query
+        return 0;
+    }
 }

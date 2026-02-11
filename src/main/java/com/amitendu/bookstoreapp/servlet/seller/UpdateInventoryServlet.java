@@ -1,85 +1,69 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.amitendu.bookstoreapp.servlet.seller;
 
+import com.amitendu.bookstoreapp.dao.InventoryDAO;
+import com.amitendu.bookstoreapp.model.InventoryItem;
+import com.amitendu.bookstoreapp.model.User;
+import com.amitendu.bookstoreapp.util.SessionUtil;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
+ * Servlet for updating inventory items.
+ * Handles individual inventory item updates.
  *
  * @author amite
  */
 public class UpdateInventoryServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateInventoryServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateInventoryServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+    private InventoryDAO inventoryDAO;
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    public void init() {
+        inventoryDAO = new InventoryDAO();
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        User user = SessionUtil.getLoggedInUser(request);
+        if (user == null || !"SELLER".equals(user.getRole())) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        try {
+            int itemId = Integer.parseInt(request.getParameter("itemId"));
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            double price = Double.parseDouble(request.getParameter("price"));
+
+            if (quantity < 0 || price <= 0) {
+                request.getSession().setAttribute("error", "Invalid quantity or price");
+                response.sendRedirect(request.getContextPath() + "/seller/inventory");
+                return;
+            }
+
+            InventoryItem item = new InventoryItem();
+            item.setId(itemId);
+            item.setQuantity(quantity);
+            item.setSellerPrice(price);
+
+            boolean success = inventoryDAO.updateInventoryItem(item);
+
+            if (success) {
+                request.getSession().setAttribute("success", "Inventory updated successfully");
+            } else {
+                request.getSession().setAttribute("error", "Failed to update inventory");
+            }
+
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("error", "Invalid input format");
+        }
+
+        response.sendRedirect(request.getContextPath() + "/seller/inventory");
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
+
